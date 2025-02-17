@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tv_flutter/providers/MovementIndexProvider.dart';
 import 'package:tv_flutter/providers/MovementLocationProvider.dart';
+import 'package:tv_flutter/widgets/current_time.dart';
 
 class SystemBar extends ConsumerWidget implements PreferredSizeWidget {
   SystemBar({super.key});
@@ -47,10 +48,25 @@ class SystemBar extends ConsumerWidget implements PreferredSizeWidget {
         }
       },
       child: AppBar(
-        title: Text("10:30 PM, ${movement.rowPositions[0]}"),
+        title: CurrentTime(),
         foregroundColor: Colors.white,
         backgroundColor: Colors.blueGrey,
-        actions: [Icon(Icons.settings), Icon(Icons.power)],
+        actions: [
+          Icon(
+            Icons.settings,
+            color:
+                movement.rowPositions[0] == 0 && loc == MovementLocation.appBar
+                    ? Colors.orange
+                    : Colors.white,
+          ),
+          Icon(
+            Icons.power,
+            color:
+                movement.rowPositions[0] == 1 && loc == MovementLocation.appBar
+                    ? Colors.orange
+                    : Colors.white,
+          ),
+        ],
       ),
     );
   }
