@@ -1,0 +1,23 @@
+name: tv_flutter
+description: "A PoC for an interface for a Home Theater PC running Linux."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.6.1
+  go_router: ^14.8.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  custom_lint: ^0.7.3
+  riverpod_lint: ^2.6.4
+
+flutter:
+  uses-material-design: true
