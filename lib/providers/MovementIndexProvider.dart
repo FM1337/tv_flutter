@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tv_flutter/providers/DashboardListProvider.dart';
 import 'package:tv_flutter/providers/MovementLocationProvider.dart';
 
 class MovementInfo {
@@ -39,10 +40,66 @@ class MovementInfo {
 }
 
 class MovementInfoProvider
-    extends AutoDisposeFamilyNotifier<MovementInfo, MovementInfo> {
+    extends AutoDisposeFamilyNotifier<MovementInfo, String> {
   @override
   build(arg) {
-    return arg;
+    switch (arg) {
+      case "dash":
+        {
+          var provider = ref.watch(dashboardListProvider);
+
+          var result = provider.when(
+            data: (data) {
+              return MovementInfo(
+                key: "dash",
+                mode: MovementLocation.page,
+                focusNode: FocusNode(),
+                rowColumnsCount: List.generate(data.keys.length, (index) {
+                  return data.values.elementAt(index).length;
+                }),
+                rowPositions: List.generate(data.length, (_) => 0),
+              );
+            },
+            error: (_, _) {
+              return MovementInfo(
+                key: "dash",
+                mode: MovementLocation.page,
+                focusNode: FocusNode(),
+                rowColumnsCount: [0],
+                rowPositions: [0],
+              );
+            },
+            loading: () {
+              return MovementInfo(
+                key: "dash",
+                mode: MovementLocation.page,
+                focusNode: FocusNode(),
+                rowColumnsCount: [0],
+                rowPositions: [0],
+              );
+            },
+          );
+
+          return result;
+        }
+
+      case "appbar":
+        return MovementInfo(
+          key: "appbar",
+          mode: MovementLocation.appBar,
+          focusNode: FocusNode(),
+          rowColumnsCount: [2],
+          rowPositions: [0],
+        );
+      default:
+        return MovementInfo(
+          key: "placeholder",
+          mode: MovementLocation.overlay,
+          focusNode: FocusNode(),
+          rowColumnsCount: [0],
+          rowPositions: [0],
+        );
+    }
   }
 
   void moveDown() {
@@ -75,8 +132,13 @@ class MovementInfoProvider
 
   void moveRight() {
     if (ref.read(movementLocationProvider) != state.mode) {
+      print('wat');
+      print(state.mode);
+      print(ref.read(movementLocationProvider));
       return;
     }
+
+    print("ello");
 
     if (state.rowColumnsCount[state.currentY] - 1 >
         state.rowPositions[state.currentY]) {
@@ -100,6 +162,6 @@ class MovementInfoProvider
 }
 
 final movementInfoProvider = NotifierProvider.family
-    .autoDispose<MovementInfoProvider, MovementInfo, MovementInfo>(
+    .autoDispose<MovementInfoProvider, MovementInfo, String>(
       MovementInfoProvider.new,
     );

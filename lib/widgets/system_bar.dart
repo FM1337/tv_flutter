@@ -21,7 +21,7 @@ class SystemBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final movement = ref.watch(movementInfoProvider(info2));
+    final movement = ref.watch(movementInfoProvider("appbar"));
     final loc = ref.watch(movementLocationProvider);
 
     if (!movement.focusNode.hasFocus && loc == MovementLocation.appBar) {
@@ -38,13 +38,13 @@ class SystemBar extends ConsumerWidget implements PreferredSizeWidget {
         }
 
         if (value.physicalKey == PhysicalKeyboardKey.arrowUp) {
-          ref.read(movementInfoProvider(info2).notifier).moveUp();
+          ref.read(movementInfoProvider("appbar").notifier).moveUp();
         } else if (value.physicalKey == PhysicalKeyboardKey.arrowDown) {
-          ref.read(movementInfoProvider(info2).notifier).moveDown();
+          ref.read(movementInfoProvider("appbar").notifier).moveDown();
         } else if (value.physicalKey == PhysicalKeyboardKey.arrowLeft) {
-          ref.read(movementInfoProvider(info2).notifier).moveLeft();
+          ref.read(movementInfoProvider("appbar").notifier).moveLeft();
         } else if (value.physicalKey == PhysicalKeyboardKey.arrowRight) {
-          ref.read(movementInfoProvider(info2).notifier).moveRight();
+          ref.read(movementInfoProvider("appbar").notifier).moveRight();
         }
       },
       child: AppBar(

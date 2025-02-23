@@ -1,18 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tv_flutter/providers/MovementLocationProvider.dart';
 
 class DashboardCard extends ConsumerWidget {
   final String title;
-  final String value;
-  final IconData icon;
+  final String icon;
   final Color activeColor;
   final bool isActive;
 
   const DashboardCard({
     super.key,
     required this.title,
-    required this.value,
     required this.icon,
     required this.activeColor,
     required this.isActive,
@@ -53,11 +55,20 @@ class DashboardCard extends ConsumerWidget {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Image.network(
-                  "https://picsum.photos/250?image=9",
-                  width: 250,
-                  height: 250,
-                ),
+                icon.isNotEmpty
+                    ? icon.contains(".svg")
+                        ? SvgPicture.file(File(icon), width: 250, height: 250)
+                        : Image.file(
+                          scale: 0.1,
+                          File(icon),
+                          width: 250,
+                          height: 250,
+                        )
+                    : Image.network(
+                      "https://picsum.photos/250?image=9",
+                      width: 250,
+                      height: 250,
+                    ),
 
                 Padding(
                   padding: const EdgeInsets.only(left: 25.0),
